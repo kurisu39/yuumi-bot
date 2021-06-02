@@ -14,7 +14,7 @@ import os
 import string
 
 destringed = [x.lower().translate(str.maketrans('', '', string.punctuation)) for x in sortedVoiceLines]
-token = "ODQ1MTM1MjIyMTg1Nzg3NDEz.YKcjgg.pot5KLyWhaLbELGcIbrEkW6AFDs"
+from config import testToken
 
 yuumiVO = glob.glob("audio/*.ogg")
 japaneseyuumi = glob.glob("japanese/*.ogg")
@@ -281,4 +281,4 @@ async def leave(ctx):
         await ctx.send('Disconnecting', delete_after=20)
         await voice.disconnect()
         
-bot.run(token)
+bot.run(testToken)

@@ -9,8 +9,7 @@ from discord import ChannelType
 from voicelines import voiceLines
 import random
 import os
-
-token = "ODQ1MDA5MDI4MTYwNDIxODk4.YKat-w.iXfZ4TYvy4_aUIjYVCDhibDIlgY"
+from config import productionToken
 
 yuumiVO = glob.glob("audio/*.ogg")
 japaneseyuumi = glob.glob("japanese/*.ogg")
@@ -232,4 +231,4 @@ async def leave(ctx):
         await ctx.send('Disconnecting', delete_after=20)
         await voice.disconnect()
         
-bot.run(token)
+bot.run(productionToken)

@@ -7,13 +7,11 @@ import glob
 import asyncio
 from discord import ChannelType
 import time
-
-
 from voicelines import voiceLines
 import random
 import os
+from config import testToken
 
-token = "ODIxMTEwNzAyMTA2MzQ1NTMz.YE-87g.PHpMgIL9bI5O9-qf-M2H6vsOrdU"
 
 yuumiVO = glob.glob("audio/*.ogg")
 bot = discord.Client()
@@ -75,4 +73,4 @@ async def leave(ctx):
         await ctx.send('Disconnecting', delete_after=20)
         await voice.disconnect()
         
-bot.run(token)
+bot.run(testToken)
