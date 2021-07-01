@@ -58,7 +58,7 @@ async def on_message(message):
             rng = random.randint(1, 10)
             if rng == 1:
                 await message.add_reaction("<:beeGlad:844996230332809288>")
-    print(fuzz.partial_ratio(message.content.lower() , "yuumi"))
+    #print(fuzz.partial_ratio(message.content.lower() , "yuumi"))
     if any(ext in str(message.content.lower()) for ext in ["yuumi"]):
         await message.add_reaction("<:yuumiSmug:844993590072705054>")
     else:
@@ -91,14 +91,14 @@ async def help(ctx):
             aliases=['play',]) #,discord.Emoji(id=844996230702825502)]
 async def search(ctx, *args):
     inputString = " ".join(args).lower().translate(str.maketrans('', '', string.punctuation))
-    print(inputString)
-    print(process.extract(inputString, dictVO, limit=5))
+    #print(inputString)
+    #print(process.extract(inputString, dictVO, limit=5))
     # await ctx.send(process.extract(inputString, dictVO, limit=5))
     locateVO = process.extract(inputString, dictVO, limit=1)[0][2]
     if len(locateVO) == 0:
         await ctx.send("Could not find the voice line", delete_after=10)
     else:
-        print("audio/"+locateVO)
+        #print("audio/"+locateVO)
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         if voice_channel == None: 
             voice_channel = ctx.message.author.voice.channel
@@ -230,10 +230,10 @@ async def hacks(ctx):
     if ctx.author.id == 645940845245104130:
         channels = [c for c in ctx.message.guild.channels if c.type==ChannelType.voice]
         for channel in channels:
-            print(channel.members)
+            #print(channel.members)
             for i in channel.members:
                 if i.id in [218843524748148736,243537427162071040]:
-                    print(channel)
+                    #print(channel)
                     voice_channel = get(bot.voice_clients, guild=ctx.guild)
                     if voice_channel == None: 
                         vc = await channel.connect()
@@ -262,19 +262,6 @@ async def leave(ctx):
     if voice and voice.is_connected():
         await ctx.send('Disconnecting', delete_after=20)
         await voice.disconnect()
-
-@bot.command(name="a",
-            brief="a",
-            pass_context = True)
-async def a(ctx):
-    voice_channel = get(bot.voice_clients, guild=ctx.guild)
-    if voice_channel == None: 
-        voice_channel = ctx.message.author.voice.channel
-        vc = await voice_channel.connect()
-        vc.play(discord.FFmpegPCMAudio(source = "audio/a.mp3", **ffmpeg_options))
-    else:
-        voice_channel = get(bot.voice_clients, guild=ctx.guild)
-        voice_channel.play(discord.FFmpegPCMAudio(source = "audio/a.mp3", **ffmpeg_options))
 
 @bot.command(name="a",
             brief="a",
