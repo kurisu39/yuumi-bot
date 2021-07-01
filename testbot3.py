@@ -14,6 +14,25 @@ import os
 import string
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw
+import textwrap
+import random
+from ziyanli import preGame, earlyGame, midGame, lateGame, freeSquares
+font = ImageFont.truetype("design.graffiti.comicsansms.ttf",36)
+
+def random_n_picks(n, pick_list):
+    return([random.choice(i) for i in random.sample(pick_list, n)])
+
+def pick_phrases():
+    all_phrase = []
+    all_phrase.extend(random_n_picks(2, preGame))
+    all_phrase.extend(random_n_picks(6,earlyGame))
+    all_phrase.extend(random_n_picks(8,midGame))
+    all_phrase.extend(random_n_picks(8,lateGame))
+    random.shuffle(all_phrase)
+    return(all_phrase,random.choice(freeSquares))
 
 destringed = [x.lower().translate(str.maketrans('', '', string.punctuation)) for x in sortedVoiceLines]
 from config import testToken
@@ -85,7 +104,8 @@ async def help(ctx):
     embed.add_field(name="china", value="Simulates chinese Yuumi", inline=False)
     embed.add_field(name="communism", value="Simulates communist Yuumi", inline=False)
     embed.add_field(name="leave", value="Leaves the current vc.", inline=False)
-
+    embed.add_field(name="bingo",value="Creates a bingo square for when watching Ziyan play ranked", inline=False)
+    embed.add_field(name="hacks",value="what??? nothing suspicious...", inline=False)
     await ctx.send(embed=embed)
 
 @bot.command()
@@ -318,5 +338,23 @@ async def a(ctx):
     else:
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         voice_channel.play(discord.FFmpegPCMAudio(source = "audio/a.mp3", **ffmpeg_options))
-
+@bot.command(name="bingo",
+            brief="Creates a bingo square for when watching Ziyan play ranked",
+            pass_context=True,
+            alias=["ranked","ziyan","shyvana","lolziyanplayrankedsowecanplaybingo"])
+async def bingo(ctx):
+    blank = Image.open("blank.jpg")
+    draw = ImageDraw.Draw(blank)
+    row = 0
+    column = 0
+    phrases, free = pick_phrases()
+    phrases.insert(12,free)
+    for i in range(25):
+        row = i//5
+        column = i%5
+        brokenPhrase = textwrap.wrap(phrases[i],13)
+        for j in range(len(brokenPhrase)):
+            draw.text((35+258*column,280+260*row+40*j),brokenPhrase[j],(0,0,0), font=font)
+    blank.save("square.jpg")
+    await ctx.send(file=discord.File("square.jpg"))
 bot.run(testToken)

@@ -1,0 +1,97 @@
+preGame = [
+    ["our team comp sucks", "their team comp is better", "our comp sucks","we can't team fight with this comp"],
+    ["i have to go tank Shyvana into this team comp", "i have to go AD Shyvana into their comp","Shyvana is so bad into their comp"]
+]
+
+earlyGame = [
+    ["what are you doing???"],
+    ["___ won't have prio over ___ so I can't contest scuttle"],
+    ["i'm getting double scuttled"],
+    ["i couldn't have done anything", "i can't do anything"],
+    ["he's so bad", "this ___ is so bad","you're literally just so bad"],
+    ["we give drake here"],
+    ["i can just invade him"],
+    ["we got first tower"],
+    ["i have a level lead on him"],
+    ["he's out farming me"],
+    ["of course my jungle is gone", "of course", "of course he's there", "of course he invades me"],
+    ["wrong ping"],
+    ["can i even get there in time"],
+    ["i should've given you the kill"]
+]
+
+midGame = [
+    ["my teammates suck"],
+    ["im building the wrong items","i have the wrong skill order for AD Shyvana","i'm not gonna do any damage","whats the buildpath"],
+    ["we out scale"],
+    ["it's free drake", "i think drake's just gone"],
+    ["i'm inting","i'm literally running it down"],
+    ["it's free [baron/rift/tower]"],
+    ["i'm so pissed"],
+    ["just leave"],
+    ["we're probably even in terms of gold right now","wWe're not actually that far behind","we're probably behind in gold", "we're probably even in gold","we're probably ahead in gold"],
+    ["if only i had cc", "if only Shyvana had CC"],
+    ["if only i had damage", "if only Shyvana had damage early", "i have no damage"],
+    ["if only i had a dash", "if only Shyvana had a dash"],
+    ["i can't do anything without ult","i don't have ult","i need to farm for ult", "i dont got nothin", "that's not how my ult works"],
+    ["im tilted", "im not tilted"],
+    ["they are running it down really hard"],
+    ["that's not balanced","that champ is not balanced","where's the counterplay","naw that one is kind of unfair"],
+    ["i think it would be better if i went afk at this point"],
+    ["i'm lagging"],
+    ["thats worth","that's so worth","thats a good trade","i think that's worth"],
+    ["it's not my fault"],
+    ["i'm peeling", "i'm peeling for you"],
+    ["OMG that's unfortunate"],
+    ["my champ has no agency"],
+    ["he's dead", "i think they're just dead"],
+    ["i think i'm just dead", "of course i'm dead","im dead", "yeah im dead"],
+    ["this is so int"],
+    ["i'm kiting"],
+    ["oh that was such a bad flash","omg my flash was so bad"],
+    ["why is ___ building ___"],
+    ["i need the wave"],
+    ["we got _ drake so we're actually totally fine", "our wincon is 4 drakes", "we need this drake"],
+    ["i need to omnivamp"],
+    ["i'm baiting my team", "i got baited"],
+    ["the issue is ___", "yea thats the issue"],
+    ["wait"],
+    ["come on"],
+    ["he doesn't die???", "how long can he survive"],
+    ["i got it i got it","i missed the smite","i outsmited him"],
+    ["we need a pick","we need to get a pick"]
+]
+
+lateGame = [
+    ["baron","we can't do the baron"],
+    ["we gotta deal with ___"],
+    ["___ is going to carry","___ is going to carry them"],
+    ["why are we forcing","no... we can't fight that", "we can't ___", "why are we fighting"],
+    ["i should've ___"],
+    ["what are we doing"],
+    ["we just lose now i think", "we just lose now unfortunately", "we have to make a play here"],
+    ["we need to split push"],
+    ["we can fight this we have baron"],
+    ["go in"],
+    ["we can't end"],
+    ["just reset"],
+    ["this game is totally fine","this game is totally winnable", "its totally fine","this game is still fine","this games still mostly fine"],
+    ["this games over i think","i mean this games not over", "the game's still winnable","we literally win this","we can win this we literally win this"],
+    ["what am i doing"],
+    ["/ff this isn't winnable","this game's over i think", "i'm not gonna ff"],
+    ["where is my team?","i guess i can't go in"],
+    ["why, why"],
+    ["i'm reporting this ___ afterwords", "i'm reporting ___"],
+    ["this is just scuffed", "that was so scuffed", "this game is so scuffed"],
+    ["that is gg", "i think that's gg"],
+    ["take their inhib", "they take inhib here"],
+    ["that game tilted me"],
+    ["i didn't deserve that win"],
+    ["that was such a bad game"]
+]
+
+freeSquares = [
+    "*ziyan gets flamed*",
+    "*ziyan complains about his teammates",
+    "free square lmao",
+]
