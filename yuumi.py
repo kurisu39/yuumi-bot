@@ -86,7 +86,7 @@ async def on_message(message):
         elif fuzz.partial_ratio(message.content.lower() , "yuumi") >= 60 or any(ext in str(message.content.lower()) for ext in madyuumiwords):
             
             await message.add_reaction("<:yuumiMad:844996230299123743>")
-
+    bot.process_commands(message)
 @bot.command(name='help',
             brief='Custom help command',
             pass_context=True)
