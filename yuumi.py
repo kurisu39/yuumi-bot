@@ -311,7 +311,7 @@ async def a(ctx, *args):
 @bot.command(name="bingo",
             brief="Creates a bingo square for when watching Ziyan play ranked",
             pass_context=True,
-            alias=["ranked","ziyan","shyvana","lolziyanplayrankedsowecanplaybingo"])
+            aliases=["ranked","ziyan","shyvana","lolziyanplayrankedsowecanplaybingo"])
 async def bingo(ctx):
     blank = Image.open("blank.jpg")
     draw = ImageDraw.Draw(blank)
