@@ -43,7 +43,7 @@ koreanyuumi = glob.glob("korean/*.ogg")
 chineseyuumi = glob.glob("chinese/*.ogg")
 russianyuumi = glob.glob("russian/*.ogg")
 frenchyuumi = glob.glob("french/*.ogg")
-
+fish = glob.glob("fish/*.ogg")
 bot = discord.Client()
 bot = commands.Bot(command_prefix='%')
 ffmpeg_options = {'options': '-filter:a "volume=0.1"'}
@@ -312,6 +312,20 @@ async def hacks(ctx):
         else:
             voice_channel = get(bot.voice_clients, guild=ctx.guild)
             voice_channel.play(discord.FFmpegPCMAudio(executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",source = "apyuumi.mp3", **ffmpeg_options))
+
+@bot.command(name="fizz",
+            brief='Join VC and play a Fizz quote',
+            pass_context = True,
+            aliases=['fish','brokenchampion','cringe','fizzabuser','t1']) #,discord.Emoji(id=844996230702825502)]
+async def fizz(ctx):
+    voice_channel = get(bot.voice_clients, guild=ctx.guild)
+    if voice_channel == None: 
+        voice_channel = ctx.message.author.voice.channel
+        vc = await voice_channel.connect()
+        vc.play(discord.FFmpegPCMAudio(source = random.choice(random.choice([["fish/File0000.mp3"],fish, fish, fish])), **ffmpeg_options))
+    else:
+        voice_channel = get(bot.voice_clients, guild=ctx.guild)
+        voice_channel.play(discord.FFmpegPCMAudio(source = random.choice(random.choice([["fish/File0000.mp3"],fish, fish, fish])), **ffmpeg_options))
 
 @bot.command(name='leave',
             brief='Tries to leave the current channel the message author is in',

@@ -39,7 +39,7 @@ koreanyuumi = glob.glob("korean/*.ogg")
 chineseyuumi = glob.glob("chinese/*.ogg")
 russianyuumi = glob.glob("russian/*.ogg")
 frenchyuumi = glob.glob("french/*.ogg")
-
+fish = glob.glob("fish/*.ogg")
 destringed = [x.lower().translate(str.maketrans('', '', string.punctuation)) for x in sortedVoiceLines]
 bot = discord.Client()
 bot = commands.Bot(command_prefix='!')
@@ -212,6 +212,21 @@ async def french(ctx):
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         voice_channel.play(discord.FFmpegPCMAudio(source = random.choice(frenchyuumi), **ffmpeg_options))
 
+
+@bot.command(name="fizz",
+            brief='Join VC and play a Fizz quote',
+            pass_context = True,
+            aliases=['fish','brokenchampion','cringe','fizzabuser','t1']) #,discord.Emoji(id=844996230702825502)]
+async def fizz(ctx):
+    voice_channel = get(bot.voice_clients, guild=ctx.guild)
+    if voice_channel == None: 
+        voice_channel = ctx.message.author.voice.channel
+        vc = await voice_channel.connect()
+        vc.play(discord.FFmpegPCMAudio(source = random.choice(random.choice([["fish/File0000.mp3"],fish, fish, fish])), **ffmpeg_options))
+    else:
+        voice_channel = get(bot.voice_clients, guild=ctx.guild)
+        voice_channel.play(discord.FFmpegPCMAudio(source = random.choice(random.choice([["fish/File0000.mp3"],fish, fish, fish])), **ffmpeg_options))
+
 @bot.command(name="playall",
             brief="Plays all of the voice lines for a certain language",
             pass_context = True,
@@ -265,10 +280,10 @@ async def hacks(ctx):
         if voice_channel == None: 
             voice_channel = ctx.message.author.voice.channel
             vc = await voice_channel.connect()
-            vc.play(discord.FFmpegPCMAudio(source = "apyuumi.mp3", **ffmpeg_options))
+            vc.play(discord.FFmpegPCMAudio(source = "fish/File0000.mp3", **ffmpeg_options))
         else:
             voice_channel = get(bot.voice_clients, guild=ctx.guild)
-            voice_channel.play(discord.FFmpegPCMAudio(source = "apyuumi.mp3", **ffmpeg_options))
+            voice_channel.play(discord.FFmpegPCMAudio(source = "fish/File0000.mp3", **ffmpeg_options))
 
 @bot.command(name='leave',
             brief='Tries to leave the current channel the message author is in',
