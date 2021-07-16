@@ -327,6 +327,18 @@ async def fizz(ctx):
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         voice_channel.play(discord.FFmpegPCMAudio(source = random.choice(random.choice([["fish/File0000.mp3"],fish, fish, fish])), **ffmpeg_options))
 
+@bot.command(name="cannon",
+            brief='Counts the number of cannon minions Joey has missed',
+            pass_context=True)
+async def cannon(ctx):
+    with open("cannon","r") as cannon:
+        cannonCount = int(cannon.read())
+    cannon.close()
+    await ctx.send(f"Joey has missed {cannonCount+1} cannons!")
+    with open("cannon","w") as cannon:
+        cannon.write(str(cannonCount+1))
+    cannon.close()
+
 @bot.command(name='leave',
             brief='Tries to leave the current channel the message author is in',
             pass_context=True)

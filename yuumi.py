@@ -343,4 +343,17 @@ async def bingo(ctx):
     blank.save("square.jpg")
     await ctx.send(file=discord.File("square.jpg"))
 
+
+@bot.command(name="cannon",
+            brief='Counts the number of cannon minions Joey has missed',
+            pass_context=True)
+async def cannon(ctx):
+    with open("cannon","r") as cannon:
+        cannonCount = int(cannon.read())
+    cannon.close()
+    await ctx.send(f"Joey has missed {cannonCount+1} cannons!")
+    with open("cannon","w") as cannon:
+        cannon.write(str(cannonCount+1))
+    cannon.close()
+    
 bot.run(productionToken)
