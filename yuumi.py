@@ -365,7 +365,7 @@ async def playall(ctx, arg):
             vc = await voice_channel.connect()
             vc.play(
                 discord.FFmpegPCMAudio(
-                    source="audio/complete" + arg + "yuumi.mp3", **ffmpeg_options
+                    source="audio/complete/" + arg + "yuumi.mp3", **ffmpeg_options
                 )
             )
         else:
