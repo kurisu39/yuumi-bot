@@ -42,7 +42,7 @@ def pick_phrases():
     all_phrase.extend(random_n_picks(6, earlyGame))
     all_phrase.extend(random_n_picks(8, midGame))
     all_phrase.extend(random_n_picks(7, lateGame))
-    all_phrase.append(random_n_picks(1, objectiveStealing))
+    all_phrase.extend(random_n_picks(1, objectiveStealing))
     random.shuffle(all_phrase)
     return (all_phrase, random.choice(freeSquares))
 
@@ -524,6 +524,5 @@ async def cannon(ctx):
     with open("cannon", "w") as cannon:
         cannon.write(str(cannonCount + 1))
     cannon.close()
-
 
 bot.run(productionToken)
