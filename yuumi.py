@@ -13,6 +13,7 @@ from voicelines import (
     preGame,
     earlyGame,
     midGame,
+    objectiveStealing,
     lateGame,
     freeSquares,
 )
@@ -40,7 +41,8 @@ def pick_phrases():
     all_phrase.extend(random_n_picks(2, preGame))
     all_phrase.extend(random_n_picks(6, earlyGame))
     all_phrase.extend(random_n_picks(8, midGame))
-    all_phrase.extend(random_n_picks(8, lateGame))
+    all_phrase.extend(random_n_picks(7, lateGame))
+    all_phrase.append(random_n_picks(1, objectiveStealing))
     random.shuffle(all_phrase)
     return (all_phrase, random.choice(freeSquares))
 

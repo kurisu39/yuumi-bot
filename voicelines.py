@@ -507,8 +507,21 @@ midGame = [
     ["wait"],
     ["come on"],
     ["he doesn't die???", "how long can he survive"],
-    ["i got it i got it", "i missed the smite", "i outsmited him"],
     ["we need a pick", "we need to get a pick"],
+    ["I should've ulted earlier"],
+]
+
+objectiveStealing = [
+    ["*ziyan steals an objective*"],
+    ["I'm gonna steal [baron/drake]"],
+    ["*ziyan fails to steal baron/drake*"],
+    ["*ziyan dies trying to steal baron/drake*"],
+    ["I should've gone for the steal"],
+    ["i got it i got it", "i missed the smite", "i outsmited him", "Shyvana outsmites"],
+    [
+        "I can't steal this, I can't steal this",
+        "I can steal this!!!"],
+    ["I missed the smite"],
 ]
 
 lateGame = [
