@@ -1,6 +1,4 @@
-from hashlib import algorithms_guaranteed
 import discord
-from difflibbutbetter import get_close_matches_indexes
 from discord.ext import commands
 from discord.utils import get
 from discord import FFmpegPCMAudio
@@ -8,18 +6,30 @@ import glob
 import asyncio
 from tinytag import TinyTag
 from discord import ChannelType
-from voicelines import voiceLines, sortedVoiceLines, dictVO
+from voicelines import (
+    voiceLines,
+    sortedVoiceLines,
+    dictVO,
+    preGame,
+    earlyGame,
+    midGame,
+    objectiveStealing,
+    lateGame,
+    freeSquares,
+)
 import random
 import os
+from config import testToken
+from difflibbutbetter import get_close_matches_indexes
 import string
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
+from fuzzywuzzy import fuzz, process
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 import textwrap
 import random
-from ziyanli import preGame, earlyGame, midGame, lateGame, freeSquares
+
+
 
 font = ImageFont.truetype("design.graffiti.comicsansms.ttf", 36)
 
@@ -33,34 +43,36 @@ def pick_phrases():
     all_phrase.extend(random_n_picks(2, preGame))
     all_phrase.extend(random_n_picks(6, earlyGame))
     all_phrase.extend(random_n_picks(8, midGame))
-    all_phrase.extend(random_n_picks(8, lateGame))
+    all_phrase.extend(random_n_picks(7, lateGame))
+    all_phrase.extend(random_n_picks(1, objectiveStealing))
     random.shuffle(all_phrase)
     return (all_phrase, random.choice(freeSquares))
 
-
+t1fizz = "audio/fizz/File0000.mp3"
+yuumiVO = glob.glob("audio/english/*.ogg")
+japaneseyuumi = glob.glob("audio/japanese/*.ogg")
+koreanyuumi = glob.glob("audio/korean/*.ogg")
+chineseyuumi = glob.glob("audio/chinese/*.ogg")
+russianyuumi = glob.glob("audio/russian/*.ogg")
+frenchyuumi = glob.glob("audio/french/*.ogg")
+fish = glob.glob("audio/fizz/*.ogg")
 destringed = [
     x.lower().translate(str.maketrans("", "", string.punctuation))
     for x in sortedVoiceLines
 ]
-from config import testToken
-
-yuumiVO = glob.glob("audio/*.ogg")
-japaneseyuumi = glob.glob("japanese/*.ogg")
-koreanyuumi = glob.glob("korean/*.ogg")
-chineseyuumi = glob.glob("chinese/*.ogg")
-russianyuumi = glob.glob("russian/*.ogg")
-frenchyuumi = glob.glob("french/*.ogg")
-fish = glob.glob("fish/*.ogg")
+################ CHANGED ##############
 bot = discord.Client()
-bot = commands.Bot(command_prefix="%")
-ffmpeg_options = {"options": '-filter:a "volume=0.1"'}
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix="!", intents=intents)
+ffmpeg_options = {"options": '-filter:a "volume=0.25"'}
 bot.remove_command("help")
 
 bullyAmy = False
 if bullyAmy == True:
-    yuumiwords = ["zoomie", "zoomies", "allan", "mald", "cat", "book", "amy", "any"]
+    yuumiwords = ["allan", "mald", "cat", "book", "amy", "any"]
 else:
-    yuumiwords = ["zoomie", "zoomies", "allan", "mald", "cat", "book"]
+    yuumiwords = ["allan", "mald", "cat", "book"]
 
 madyuumiwords = [
     "yuujmi",
@@ -75,8 +87,6 @@ madyuumiwords = [
     "yummy",
     "yoomi",
     "yummmiiy",
-    "yoommie",
-    "yooommie",
 ]
 
 
@@ -89,7 +99,7 @@ async def on_ready():
     )
     while True:
         channel = bot.get_channel(844829544476180533)
-        x = random.randint(18000, 43200)
+        x = random.randint(16900, 42000)
         print(x)
         await asyncio.sleep(x)
         print("sending message")
@@ -113,17 +123,17 @@ async def on_message(message):
             rng = random.randint(1, 10)
             if rng == 1:
                 await message.add_reaction("<:beeGlad:844996230332809288>")
-    print(fuzz.partial_ratio(message.content.lower(), "yuumi"))
+    # print(fuzz.partial_ratio(message.content.lower() , "yuumi"))
     if any(ext in str(message.content.lower()) for ext in ["yuumi"]):
-        await message.add_reaction("\U0001F3D3")
+        await message.add_reaction("<:yuumiSmug:844993590072705054>")
     else:
         if any(ext in str(message.content) for ext in yuumiwords):
-            await message.add_reaction("\U0001F3D3")
+            await message.add_reaction("<:yuumiSmug:844993590072705054>")
         elif fuzz.partial_ratio(message.content.lower(), "yuumi") >= 60 or any(
             ext in str(message.content.lower()) for ext in madyuumiwords
         ):
 
-            await message.add_reaction("\U0001F408")
+            await message.add_reaction("<:yuumiMad:844996230299123743>")
     await bot.process_commands(message)
 
 
@@ -155,52 +165,6 @@ async def help(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.command()
-async def test(ctx, *args):
-    await ctx.send(args)
-
-
-@bot.command(pass_context=True)
-async def iq(ctx, *args):
-    await ctx.send(fuzz.partial_ratio(" ".join(args), "yuumi"))
-
-
-@bot.command(
-    name="number", brief="Plays yuumi quote by number", pass_context=True
-)  # ,discord.Emoji(id=844996230702825502)]
-async def number(ctx, arg):
-    # just testing to see why its not working
-    voNumber = int(arg)
-    print(destringed[voNumber - 1])
-    if voNumber <= 9:
-        voFile = "audio/File000" + str(voNumber) + ".ogg"
-    elif voNumber >= 100:
-        voFile = "audio/File0" + str(voNumber) + ".ogg"
-    else:
-        voFile = "audio/File00" + str(voNumber) + ".ogg"
-    print(voFile)
-    voice_channel = get(bot.voice_clients, guild=ctx.guild)
-    if voice_channel == None:
-        voice_channel = ctx.message.author.voice.channel
-        vc = await voice_channel.connect()
-        vc.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=voFile,
-                **ffmpeg_options,
-            )
-        )
-    else:
-        voice_channel = get(bot.voice_clients, guild=ctx.guild)
-        voice_channel.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=voFile,
-                **ffmpeg_options,
-            )
-        )
-
-
 @bot.command(
     name="search",
     brief="Finds the Yuumi quote that is stuck in your head",
@@ -213,42 +177,72 @@ async def search(ctx, *args):
     inputString = (
         " ".join(args).lower().translate(str.maketrans("", "", string.punctuation))
     )
-    print(inputString)
-    print(process.extract(inputString, dictVO, limit=5))
-    await ctx.send(process.extract(inputString, dictVO, limit=10))
-    bestMatch = process.extract(inputString, dictVO, limit=10)[0][1]
-    possibleFiles = []
-    for i in process.extract(inputString, dictVO, limit=10):
-        if i[1] == bestMatch:
-            possibleFiles.append(i[2])
-        else:
-            break
+    # print(inputString)
+    # print(process.extract(inputString, dictVO, limit=5))
+    # await ctx.send(process.extract(inputString, dictVO, limit=5))
     locateVO = process.extract(inputString, dictVO, limit=1)[0][2]
     if len(locateVO) == 0:
         await ctx.send("Could not find the voice line", delete_after=10)
     else:
-        print("audio/" + locateVO)
+        # print("audio/"+locateVO)
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         if voice_channel == None:
             voice_channel = ctx.message.author.voice.channel
             vc = await voice_channel.connect()
             vc.play(
-                discord.FFmpegPCMAudio(
-                    executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                    source="audio/" + locateVO,
-                    **ffmpeg_options,
-                )
+                discord.FFmpegPCMAudio(source="audio/english/" + locateVO, **ffmpeg_options)
             )
         else:
             voice_channel = get(bot.voice_clients, guild=ctx.guild)
             voice_channel.play(
-                discord.FFmpegPCMAudio(
-                    executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                    source="audio/" + locateVO,
-                    **ffmpeg_options,
-                )
+                discord.FFmpegPCMAudio(source="audio/english/" + locateVO, **ffmpeg_options)
             )
 
+@bot.command(
+    name="kitten",
+    brief="Meow!",
+    pass_context=True,
+)
+async def kitten(ctx):
+    print(ctx.author.id)
+    member_list = ''
+    n = 1
+    for member in ctx.message.guild.members:
+        member_list += member.name
+        print(member.name)
+        try:
+            print(member.display_name)
+            await member.edit(nick="Kitten #" + str(n))
+            n +=1
+        except:
+            print(member.name + " could not be changed due to admin LOL")
+        
+    print(member_list)
+
+@bot.command(
+    name="owokitten",
+    brief="Meow!",
+    pass_context=True,
+)
+async def owokitten(ctx):
+    member_list = {}
+    for member in ctx.message.guild.members:
+        member_list[member.id] = [member.display_name,member.name]
+    print(member_list)
+
+@bot.command(
+    name="unkitten",
+    brief="Meow!",
+    pass_context=True,
+)
+async def unkitten(ctx):
+    member_list = {845135222185787413: ['Kitten #1', 'yuumi test bot'], 218843524748148736: ['Kitten #2', 'Jopee'], 243537427162071040: ['Kitten #3', 'Milk Loaf'], 645940845245104130: ['TauPiPhi', 'TauPiPhi'], 714568795456274472: ['Kitten #4', 'TheBigBrainBot'], 821110702106345533: ['Kitten #5', 'ViktorTestBot'], 845009028160421898: ['Kitten #6', 'yuumi bot'], 846124694766616606: ['Kitten #7', 'asd9fu20'], 858993343320293396: ['Kitten #8', 'owaowa'], 894305693228752927: ['Kitten #9', 'Evil David Wang'], 898331029843087370: ['Kitten #10', 'BreadDeliverer']}
+    for member in ctx.message.guild.members:
+        try:
+            await member.edit(nick=member_list[member.id][1])
+        except:
+            print(member.name + " could not be unkittened lol unlucky")
+    print(member_list)
 
 @bot.command(
     name="shaylee",
@@ -261,21 +255,11 @@ async def shaylee(ctx):
     if voice_channel == None:
         voice_channel = ctx.message.author.voice.channel
         vc = await voice_channel.connect()
-        vc.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(yuumiVO),
-                **ffmpeg_options,
-            )
-        )
+        vc.play(discord.FFmpegPCMAudio(source=random.choice(yuumiVO), **ffmpeg_options))
     else:
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         voice_channel.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(yuumiVO),
-                **ffmpeg_options,
-            )
+            discord.FFmpegPCMAudio(source=random.choice(yuumiVO), **ffmpeg_options)
         )
 
 
@@ -292,18 +276,14 @@ async def anime(ctx):
         vc = await voice_channel.connect()
         vc.play(
             discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(japaneseyuumi),
-                **ffmpeg_options,
+                source=random.choice(japaneseyuumi), **ffmpeg_options
             )
         )
     else:
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         voice_channel.play(
             discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(japaneseyuumi),
-                **ffmpeg_options,
+                source=random.choice(japaneseyuumi), **ffmpeg_options
             )
         )
 
@@ -320,20 +300,12 @@ async def korean(ctx):
         voice_channel = ctx.message.author.voice.channel
         vc = await voice_channel.connect()
         vc.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(koreanyuumi),
-                **ffmpeg_options,
-            )
+            discord.FFmpegPCMAudio(source=random.choice(koreanyuumi), **ffmpeg_options)
         )
     else:
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         voice_channel.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(koreanyuumi),
-                **ffmpeg_options,
-            )
+            discord.FFmpegPCMAudio(source=random.choice(koreanyuumi), **ffmpeg_options)
         )
 
 
@@ -349,20 +321,12 @@ async def korean(ctx):
         voice_channel = ctx.message.author.voice.channel
         vc = await voice_channel.connect()
         vc.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(chineseyuumi),
-                **ffmpeg_options,
-            )
+            discord.FFmpegPCMAudio(source=random.choice(chineseyuumi), **ffmpeg_options)
         )
     else:
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         voice_channel.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(chineseyuumi),
-                **ffmpeg_options,
-            )
+            discord.FFmpegPCMAudio(source=random.choice(chineseyuumi), **ffmpeg_options)
         )
 
 
@@ -378,20 +342,12 @@ async def korean(ctx):
         voice_channel = ctx.message.author.voice.channel
         vc = await voice_channel.connect()
         vc.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(russianyuumi),
-                **ffmpeg_options,
-            )
+            discord.FFmpegPCMAudio(source=random.choice(russianyuumi), **ffmpeg_options)
         )
     else:
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         voice_channel.play(
-            discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(russianyuumi),
-                **ffmpeg_options,
-            )
+            discord.FFmpegPCMAudio(source=random.choice(russianyuumi), **ffmpeg_options)
         )
 
 
@@ -407,9 +363,31 @@ async def french(ctx):
         voice_channel = ctx.message.author.voice.channel
         vc = await voice_channel.connect()
         vc.play(
+            discord.FFmpegPCMAudio(source=random.choice(frenchyuumi), **ffmpeg_options)
+        )
+    else:
+        voice_channel = get(bot.voice_clients, guild=ctx.guild)
+        voice_channel.play(
+            discord.FFmpegPCMAudio(source=random.choice(frenchyuumi), **ffmpeg_options)
+        )
+
+
+@bot.command(
+    name="fizz",
+    brief="Join VC and play a Fizz quote",
+    pass_context=True,
+    aliases=["fish", "brokenchampion", "cringe", "fizzabuser", "t1"],
+)  # ,discord.Emoji(id=844996230702825502)]
+async def fizz(ctx):
+    voice_channel = get(bot.voice_clients, guild=ctx.guild)
+    if voice_channel == None:
+        voice_channel = ctx.message.author.voice.channel
+        vc = await voice_channel.connect()
+        vc.play(
             discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(frenchyuumi),
+                source=random.choice(
+                    random.choice([[t1fizz], fish, fish, fish])
+                ),
                 **ffmpeg_options,
             )
         )
@@ -417,8 +395,9 @@ async def french(ctx):
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
         voice_channel.play(
             discord.FFmpegPCMAudio(
-                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                source=random.choice(frenchyuumi),
+                source=random.choice(
+                    random.choice([[t1fizz], fish, fish, fish])
+                ),
                 **ffmpeg_options,
             )
         )
@@ -438,18 +417,14 @@ async def playall(ctx, arg):
             vc = await voice_channel.connect()
             vc.play(
                 discord.FFmpegPCMAudio(
-                    executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                    source=arg + "yuumi.mp3",
-                    **ffmpeg_options,
+                    source="audio/complete/" + arg + "yuumi.mp3", **ffmpeg_options
                 )
             )
         else:
             voice_channel = get(bot.voice_clients, guild=ctx.guild)
             voice_channel.play(
                 discord.FFmpegPCMAudio(
-                    executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                    source=arg + "yuumi.mp3",
-                    **ffmpeg_options,
+                    source="audio/complete/" + arg + "yuumi.mp3", **ffmpeg_options
                 )
             )
     else:
@@ -476,19 +451,17 @@ async def hacks(ctx):
             c for c in ctx.message.guild.channels if c.type == ChannelType.voice
         ]
         for channel in channels:
-            print(channel.members)
+            # print(channel.members)
             for i in channel.members:
                 if i.id in [218843524748148736, 243537427162071040]:
-                    print(channel)
+                    # print(channel)
                     voice_channel = get(bot.voice_clients, guild=ctx.guild)
                     if voice_channel == None:
                         vc = await channel.connect()
                         audio = random.choice(yuumiVO)
                         vc.play(
                             discord.FFmpegPCMAudio(
-                                executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                                source=random.choice(yuumiVO),
-                                **ffmpeg_options,
+                                source=random.choice(yuumiVO), **ffmpeg_options
                             )
                         )
                         await asyncio.sleep(TinyTag.get(audio).duration + 3)
@@ -499,67 +472,13 @@ async def hacks(ctx):
             voice_channel = ctx.message.author.voice.channel
             vc = await voice_channel.connect()
             vc.play(
-                discord.FFmpegPCMAudio(
-                    executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                    source="apyuumi.mp3",
-                    **ffmpeg_options,
-                )
+                discord.FFmpegPCMAudio(source=t1fizz, **ffmpeg_options)
             )
         else:
             voice_channel = get(bot.voice_clients, guild=ctx.guild)
             voice_channel.play(
-                discord.FFmpegPCMAudio(
-                    executable="C:/Program Files/ffmpeg/bin/ffmpeg.exe",
-                    source="apyuumi.mp3",
-                    **ffmpeg_options,
-                )
+                discord.FFmpegPCMAudio(source=t1fizz, **ffmpeg_options)
             )
-
-
-@bot.command(
-    name="fizz",
-    brief="Join VC and play a Fizz quote",
-    pass_context=True,
-    aliases=["fish", "brokenchampion", "cringe", "fizzabuser", "t1"],
-)  # ,discord.Emoji(id=844996230702825502)]
-async def fizz(ctx):
-    voice_channel = get(bot.voice_clients, guild=ctx.guild)
-    if voice_channel == None:
-        voice_channel = ctx.message.author.voice.channel
-        vc = await voice_channel.connect()
-        vc.play(
-            discord.FFmpegPCMAudio(
-                source=random.choice(
-                    random.choice([["fish/File0000.mp3"], fish, fish, fish])
-                ),
-                **ffmpeg_options,
-            )
-        )
-    else:
-        voice_channel = get(bot.voice_clients, guild=ctx.guild)
-        voice_channel.play(
-            discord.FFmpegPCMAudio(
-                source=random.choice(
-                    random.choice([["fish/File0000.mp3"], fish, fish, fish])
-                ),
-                **ffmpeg_options,
-            )
-        )
-
-
-@bot.command(
-    name="cannon",
-    brief="Counts the number of cannon minions Joey has missed",
-    pass_context=True,
-)
-async def cannon(ctx):
-    with open("cannon", "r") as cannon:
-        cannonCount = int(cannon.read())
-    cannon.close()
-    await ctx.send(f"Joey has missed {cannonCount+1} cannons!")
-    with open("cannon", "w") as cannon:
-        cannon.write(str(cannonCount + 1))
-    cannon.close()
 
 
 @bot.command(
@@ -578,24 +497,47 @@ async def leave(ctx):
 
 
 @bot.command(name="a", brief="a", pass_context=True)
-async def a(ctx):
-    voice_channel = get(bot.voice_clients, guild=ctx.guild)
-    if voice_channel == None:
-        voice_channel = ctx.message.author.voice.channel
-        vc = await voice_channel.connect()
-        vc.play(discord.FFmpegPCMAudio(source="audio/a.mp3", **ffmpeg_options))
-    else:
+async def a(ctx, *args):
+    if len(args) == 0:
         voice_channel = get(bot.voice_clients, guild=ctx.guild)
-        voice_channel.play(
-            discord.FFmpegPCMAudio(source="audio/a.mp3", **ffmpeg_options)
-        )
+        if voice_channel == None:
+            voice_channel = ctx.message.author.voice.channel
+            vc = await voice_channel.connect()
+            vc.play(discord.FFmpegPCMAudio(source="audio/a/a.mp3", **ffmpeg_options))
+        else:
+            voice_channel = get(bot.voice_clients, guild=ctx.guild)
+            voice_channel.play(
+                discord.FFmpegPCMAudio(source="audio/a/a.mp3", **ffmpeg_options)
+            )
+    elif len(args) == 1 and args[0].isdigit():
+        if 0 < int(args[0]) < 15:
+            voice_channel = get(bot.voice_clients, guild=ctx.guild)
+            if voice_channel == None:
+                voice_channel = ctx.message.author.voice.channel
+                vc = await voice_channel.connect()
+                vc.play(
+                    discord.FFmpegPCMAudio(
+                        source="audio/a/" + str(int(args[0]) - 1) + ".mp3",
+                        **ffmpeg_options,
+                    )
+                )
+            else:
+                voice_channel = get(bot.voice_clients, guild=ctx.guild)
+                voice_channel.play(
+                    discord.FFmpegPCMAudio(
+                        source="audio/a/" + str(int(args[0]) - 1) + ".mp3",
+                        **ffmpeg_options,
+                    )
+                )
+        else:
+            await ctx.send("a" * random.randint(1, 25), delete_after=3)
 
 
 @bot.command(
     name="bingo",
     brief="Creates a bingo square for when watching Ziyan play ranked",
     pass_context=True,
-    alias=["ranked", "ziyan", "shyvana", "lolziyanplayrankedsowecanplaybingo"],
+    aliases=["ranked", "ziyan", "shyvana", "lolziyanplayrankedsowecanplaybingo"],
 )
 async def bingo(ctx):
     blank = Image.open("blank.jpg")
@@ -618,5 +560,19 @@ async def bingo(ctx):
     blank.save("square.jpg")
     await ctx.send(file=discord.File("square.jpg"))
 
+
+@bot.command(
+    name="cannon",
+    brief="Counts the number of cannon minions Joey has missed",
+    pass_context=True,
+)
+async def cannon(ctx):
+    with open("cannon", "r") as cannon:
+        cannonCount = int(cannon.read())
+    cannon.close()
+    await ctx.send(f"Joey has missed {cannonCount+1} cannons!")
+    with open("cannon", "w") as cannon:
+        cannon.write(str(cannonCount + 1))
+    cannon.close()
 
 bot.run(testToken)

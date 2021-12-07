@@ -59,7 +59,10 @@ destringed = [
     for x in sortedVoiceLines
 ]
 bot = discord.Client()
-bot = commands.Bot(command_prefix="!")
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix="!", intents=intents)
+
 ffmpeg_options = {"options": '-filter:a "volume=0.25"'}
 bot.remove_command("help")
 
@@ -192,6 +195,62 @@ async def search(ctx, *args):
             voice_channel.play(
                 discord.FFmpegPCMAudio(source="audio/english/" + locateVO, **ffmpeg_options)
             )
+
+@bot.command(
+    name="kitten",
+    brief="Meow!",
+    pass_context=True,
+)
+async def kitten(ctx):
+    if ctx.author.id == 645940845245104130:
+        member_list = ''
+        n = 2
+        for member in ctx.message.guild.members:
+            member_list += member.name
+            print(member.name)
+            try:
+                print(member.display_name)
+                await member.edit(nick="Kitten #" + str(n))
+                n +=1
+            except:
+                await ctx.send(member.name + " could not be changed due to admin LOL")
+        print(member_list)
+    else:
+        await ctx.send("FAKE KITTEN DETECTED MEOW!")
+        
+
+
+@bot.command(
+    name="owokitten",
+    brief="Meow!",
+    pass_context=True,
+)
+async def owokitten(ctx):
+    if ctx.author.id == 645940845245104130:
+        member_list = {}
+        for member in ctx.message.guild.members:
+            member_list[member.id] = [member.display_name,member.name]
+        print(member_list)
+    else:
+        await ctx.send("FAKE KITTEN DETECTED RAWR!")
+
+@bot.command(
+    name="unkitten",
+    brief="Meow!",
+    pass_context=True,
+)
+async def unkitten(ctx):
+    if ctx.author.id == 645940845245104130:
+        member_list = {}
+        for member in ctx.message.guild.members:
+            try:
+                await member.edit(nick=member_list[member.id][0])
+            except:
+                await ctx.send(member.name + " could not be unkittened lol unlucky")
+        print(member_list)
+    else:
+        await ctx.send("FAKE KITTY RAWRRRRRR!")
+
 
 
 @bot.command(
