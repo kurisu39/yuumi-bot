@@ -10,9 +10,11 @@ import random
 import string
 import textwrap
 
-from config import productionToken, language_aliases, languages, madyuumiwords, t1fizz
+from config import productionToken
+from config import language_aliases, languages, madyuumiwords, t1fizz
 from fuzzywuzzy import fuzz, process
 from PIL import Image, ImageFont, ImageDraw
+from tinydb import TinyDB, Query
 from tinytag import TinyTag
 from voicelines import (
     voiceLines,
@@ -25,6 +27,9 @@ from voicelines import (
     lateGame,
     freeSquares,
 )
+
+old_kittens = TinyDB('db.json')
+kittens = TinyDB('kitten.json')
 
 font = ImageFont.truetype("design.graffiti.comicsansms.ttf", 36)
 
@@ -231,6 +236,22 @@ async def yuumi(ctx, *args):
         await ctx.send("No.")
 
 ###################### KITTEN COMMANDS #############################
+# @bot.event
+# async def on_member_join(member):
+#     # update kitten list
+# @bot.event
+# async def on_member_leave(member):
+#     # update kitten list
+
+# @bot.event
+# async def on_member_update(before, after):
+#     if str(before.status) == "online":
+#         if str(after.status) == "offline":
+#             # also would be able to get the guild via after.guild or before.guild
+#             guild = bot.get_guild(1234567890)
+#             role = discord.utils.find(lambda r: r.name == 'rolename', guild.roles)
+#             await after.add_roles(role)
+
 @bot.command(
     name="kitten",
     brief="Meow!",
@@ -238,18 +259,15 @@ async def yuumi(ctx, *args):
 )
 async def kitten(ctx):
     if ctx.author.id == 645940845245104130:
-        member_list = ''
-        n = 2
+        n = 1
         for member in ctx.message.guild.members:
-            member_list += member.name
-            print(member.name)
+            kittens.insert({'id': member.id, 'name': member.name, 'number': n})
             try:
                 print(member.display_name)
                 await member.edit(nick="Kitten #" + str(n))
                 n +=1
             except:
                 await ctx.send(member.name + " could not be changed due to admin LOL")
-        print(member_list)
     else:
         await ctx.send("FAKE KITTEN DETECTED MEOW!")
         
