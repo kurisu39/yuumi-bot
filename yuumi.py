@@ -147,21 +147,6 @@ async def help(ctx):
         inline=False,
     )
     embed.add_field(
-        name="kitten",
-        value="meow!",
-        inline=False,
-    )
-    embed.add_field(
-        name="owokitten",
-        value="meow!!",
-        inline=False,
-    )
-    embed.add_field(
-        name="unkitten",
-        value="meow!!!",
-        inline=False,
-    )
-    embed.add_field(
         name="a",
         value="a",
         inline=False,
@@ -234,77 +219,6 @@ async def yuumi(ctx, *args):
             await ctx.send("No.")
     else:
         await ctx.send("No.")
-
-###################### KITTEN COMMANDS #############################
-# @bot.event
-# async def on_member_join(member):
-#     # update kitten list
-# @bot.event
-# async def on_member_leave(member):
-#     # update kitten list
-
-# @bot.event
-# async def on_member_update(before, after):
-#     if str(before.status) == "online":
-#         if str(after.status) == "offline":
-#             # also would be able to get the guild via after.guild or before.guild
-#             guild = bot.get_guild(1234567890)
-#             role = discord.utils.find(lambda r: r.name == 'rolename', guild.roles)
-#             await after.add_roles(role)
-
-@bot.command(
-    name="kitten",
-    brief="Meow!",
-    pass_context=True,
-)
-async def kitten(ctx):
-    if ctx.author.id == 645940845245104130:
-        n = 1
-        for member in ctx.message.guild.members:
-            kittens.insert({'id': member.id, 'name': member.name, 'number': n})
-            try:
-                print(member.display_name)
-                await member.edit(nick="Kitten #" + str(n))
-                n +=1
-            except:
-                await ctx.send(member.name + " could not be changed due to admin LOL")
-    else:
-        await ctx.send("FAKE KITTEN DETECTED MEOW!")
-        
-
-
-@bot.command(
-    name="owokitten",
-    brief="Meow!",
-    pass_context=True,
-)
-async def owokitten(ctx):
-    if ctx.author.id == 645940845245104130:
-        member_list = {}
-        for member in ctx.message.guild.members:
-            member_list[member.id] = [member.display_name,member.name]
-        print(member_list)
-    else:
-        await ctx.send("FAKE KITTEN DETECTED RAWR!")
-
-@bot.command(
-    name="unkitten",
-    brief="Meow!",
-    pass_context=True,
-)
-async def unkitten(ctx):
-    if ctx.author.id == 645940845245104130:
-        member_list = {}
-        for member in ctx.message.guild.members:
-            try:
-                await member.edit(nick=member_list[member.id][0])
-            except:
-                await ctx.send(member.name + " could not be unkittened lol unlucky")
-        print(member_list)
-    else:
-        await ctx.send("FAKE KITTY RAWRRRRRR!")
-
-###################### END KITTEN COMMANDS #############################
 
 @bot.command(
     name="playall",
