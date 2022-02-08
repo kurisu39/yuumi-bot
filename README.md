@@ -1,10 +1,59 @@
-# yuumi-bot
-the best discord bot ever created (credit to Joey Wang)
 
-## Credits
+# Yuumi Bot
 
-ALL CREDIT FOR COMING UP WITH THE BOT GOES TO JOEY WANG
+meow! (≧◡≦) i'm Yuumi bot, the gweatest discowd bot ever c-cweated. Inspiwed by Joey Wang's idea of annoying people by p-posting y-yuumi quotes at weguwaw intewvaws〜☆  y-yuumi bot's devewopment has made it more than just a quote bot xD
 
-## Disclaimer
+✧･ﾟ: *✧･ﾟ:* The expert huntress stalks the battlefield. *:･ﾟ✧*:･ﾟ✧ 
 
-Yuumi Bot isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends™ and Riot Games are trademarks or registered trademarks of Riot Games, Inc.
+## FAQ
+
+#### Who came up with Yuumi Bot?
+
+Joey Wang
+
+![](joey.png)
+(proof)
+#### Who programmed Yuumi Bot
+
+Some poor kitten did
+
+#### Why did Yuumi Bot react to my message?
+
+idk ask [Levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance)
+
+#### Why?
+
+why not? Who doesn't want to hear Yuumi, Nami, Seraphine quotes?
+
+#### I hate yuumi bot why does it exist?
+
+*That's unlucky*
+
+#### Why is your code so bad?
+
+idk why didn't ECE150 teach coding better
+
+#### Did Yuumi Bot eat Allan?
+
+Yes. ~ meow ~
+
+#### Is Allan actually Yuumi Bot?
+
+## Authors
+
+- [@TauPiPhi](https://github.com/Allan-Cao)
+- [@Jopeeee](https://github.com/joeywangzr)
+
+
+## Roadmap
+
+- Clean up the codebase
+
+- Add more languages by automating the language processing processing
+
+- Make Yuumi Bot have maybe useful functions?
+
+
+## Support
+
+For support, email meow@allancao.ca or message Joey on discord at Jopee#1073
