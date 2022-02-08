@@ -31,7 +31,7 @@ why not? Who doesn't want to hear Yuumi, Nami, Seraphine quotes?
 
 #### Why is your code so bad?
 
-idk why didn't ECE150 teach coding better
+idk, why didn't ECE150 teach coding better?
 
 #### Did Yuumi Bot eat Allan?
 
