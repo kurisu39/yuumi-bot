@@ -1,7 +1,8 @@
+![Yuumi-Bot](https://github.com/Allan-Cao/yuumi-bot/raw/main/Yuumi-Bot.png)
 
-# Yuumi Bot
+# 🤖 meow! (≧◡≦) i'm Yuumi bot, the gweatest discowd bot ever c-cweated.
 
-meow! (≧◡≦) i'm Yuumi bot, the gweatest discowd bot ever c-cweated. Inspiwed by Joey Wang's idea of annoying people by p-posting y-yuumi quotes at weguwaw intewvaws〜☆  y-yuumi bot's devewopment has made it more than just a quote bot xD
+I wuz inspiwed by Joey Wang's idea of annoying people by p-posting y-yuumi quotes at weguwaw intewvaws〜☆  y-yuumi bot's devewopment has made it more than just a quote bot xD
 
 ✧･ﾟ: *✧･ﾟ:* The expert huntress stalks the battlefield. *:･ﾟ✧*:･ﾟ✧ 
 
